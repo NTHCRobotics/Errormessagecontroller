@@ -50,15 +50,14 @@ public class Drivestickrc extends OpMode {
 
     //Motors
     public Rev2mDistanceSensor sideLeftDistanceSensor;
-    public  Rev2mDistanceSensor sideRightDistanceSensor;
-    public  DcMotorEx wheelFL;
-    public  DcMotorEx wheelFR;
-    public  DcMotorEx wheelBL;
-    public  DcMotorEx wheelBR;
+    public Rev2mDistanceSensor sideRightDistanceSensor;
+    public DcMotorEx wheelFL;
+    public DcMotorEx wheelFR;
+    public DcMotorEx wheelBL;
+    public DcMotorEx wheelBR;
     public DcMotorEx Viper;
-    public  Servo claw1;
-    public Servo claw2;
-
+    public Servo claw1;
+    public Servo drone;
 
     //private DcMotorEx Insertnamehere
     //private DcMotorEx Insertnamehere
@@ -68,23 +67,17 @@ public class Drivestickrc extends OpMode {
     private CRServo camera;
 
 
-
-
-
-
-
-
     private double speedMod;
     private final boolean rumbleLevel = true;
     private double rotation = 0;
-    final double TRIGGER_THRESHOLD  = 0.75;
+    final double TRIGGER_THRESHOLD = 0.75;
     private int[] armLevelPosition = {0, 1200, 1800, 2400};
     private int[] flipposPosition = {0, 925};
     private boolean clawOpen = false;
     private int armLevel = 0;
     private double previousRunTime;
     private double inputDelayInSeconds = .5;
-
+    final double buttontriangle = 1;
 
     //double susanPower;
 
@@ -93,7 +86,6 @@ public class Drivestickrc extends OpMode {
      */
     @Override
     public void init() {
-
 
 
         telemetry.addData("Status", "Initialization Started");
@@ -109,8 +101,9 @@ public class Drivestickrc extends OpMode {
         wheelBL = hardwareMap.get(DcMotorEx.class, "wheelBL");
         wheelBR = hardwareMap.get(DcMotorEx.class, "wheelBR");
         Viper = hardwareMap.get(DcMotorEx.class, "viper");
+        // Servos
         claw1 = hardwareMap.get(Servo.class, "claw1");
-        claw2 = hardwareMap.get(Servo.class, "claw2");
+        drone = hardwareMap.get(Servo.class, "drone");
 
 
         //Motor Encoders
@@ -121,14 +114,11 @@ public class Drivestickrc extends OpMode {
         wheelBR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
 
-
         Viper.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         Viper.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         Viper.setTargetPosition(260);
         Viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Viper.setTargetPositionTolerance(50);
-
-
 
 
         wheelFL.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -141,7 +131,6 @@ public class Drivestickrc extends OpMode {
         telemetry.addData("Status", "Initialization Complete");
 
 
-
     }
 
     /*
@@ -149,8 +138,8 @@ public class Drivestickrc extends OpMode {
      */
     @Override
     public void init_loop() {
-        claw1.setPosition(0.2);
-        claw2.setPosition(0);
+        claw1.setPosition(0);
+
 
 
     }
@@ -176,9 +165,7 @@ public class Drivestickrc extends OpMode {
         drivingControl();
         Viperlift();
         Grabber();
-
-
-
+        dronelauncher();
 
 
         telemetry.addData("Left Trigger Position", gamepad1.left_trigger);
@@ -282,18 +269,31 @@ public class Drivestickrc extends OpMode {
         Viper.setTargetPositionTolerance(20);
 
     }
+
     private void Grabber() {
-        if(gamepad2.a && clawOpen){
-            clawOpen = false;
-            claw1.setPosition(0.25);
-            claw2.setPosition(0);
-        }
-        else if (gamepad2.b && !clawOpen){
-            clawOpen = true;
+        if (gamepad2.left_trigger <0) { //tune this value where u need it
+
             claw1.setPosition(0);
-            claw2.setPosition(0.15);
+        }
+        if (gamepad2.right_trigger > 0) {
+            claw1.setPosition(0.5); //tune this value where u need it
         }
 
+
+    }
+    public void dronelauncher() {
+
+
+        if (gamepad1.a) {
+            // move to 0 degrees when pressing the x button on ps4..
+            drone.setPosition(0);
+        } else if (gamepad1.x ) {
+            // move to 90 degrees when pressing the square button on ps4.
+            drone.setPosition(0.5);
+        } else if (gamepad1.b) {
+            // move to 180 degrees when pressing the circle button on ps4.  .
+            drone.setPosition(1);
+        }
     }
 }
 
