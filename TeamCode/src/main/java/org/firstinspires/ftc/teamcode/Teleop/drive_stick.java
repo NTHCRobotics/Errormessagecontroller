@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -77,19 +76,16 @@ public class drive_stick extends OpMode {
     private DcMotorEx wheelBL;
     private DcMotorEx wheelBR;
     private DcMotorEx Viper;
-    private Servo claw1;
-    private Servo claw2;
+    private Servo Groundclaw;
+    private Servo Groundclaw2;
+    private Servo Pixelflip;
+    private Servo dronelaunch;
+
+
 
 
     //private DcMotorEx Insertnamehere
     //private DcMotorEx Insertnamehere
-
-
-    //Servos
-    private CRServo camera;
-
-
-
 
 
 
@@ -99,8 +95,8 @@ public class drive_stick extends OpMode {
     private final boolean rumbleLevel = true;
     private double rotation = 0;
     final double TRIGGER_THRESHOLD  = 0.75;
-    private int[] armLevelPosition = {0, 1200, 2050, 2950};
-    private int[] flipposPosition = {0, 925};
+    private int[] armLevelPosition = {0, 1200, 2050, 2950}; //for the viper ticks
+
     private boolean clawOpen = false;
     private int armLevel;
     private double previousRunTime;
@@ -129,9 +125,15 @@ public class drive_stick extends OpMode {
         wheelFR = hardwareMap.get(DcMotorEx.class, "wheelFR");
         wheelBL = hardwareMap.get(DcMotorEx.class, "wheelBL");
         wheelBR = hardwareMap.get(DcMotorEx.class, "wheelBR");
+
+
+        //Servo
         Viper = hardwareMap.get(DcMotorEx.class, "viper");
-        claw1 = hardwareMap.get(Servo.class, "claw1");
-        claw2 = hardwareMap.get(Servo.class, "claw2");
+        Groundclaw = hardwareMap.get(Servo.class, "groundclaw");// for the auto ground claw for scoring its a preload
+        Groundclaw2 = hardwareMap.get(Servo.class, "groundclaw2");
+        Pixelflip = hardwareMap.get(Servo.class, "Pixelflip");
+        dronelaunch = hardwareMap.get(Servo.class, "Dronelaunch");
+
 
 
         //Motor Encoders
@@ -145,7 +147,7 @@ public class drive_stick extends OpMode {
 
         Viper.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         Viper.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        Viper.setTargetPosition(260);
+        Viper.setTargetPosition(260);// tune this
         Viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Viper.setTargetPositionTolerance(50);
 
@@ -154,12 +156,14 @@ public class drive_stick extends OpMode {
 
         wheelFL.setDirection(DcMotorSimple.Direction.FORWARD);
         wheelFR.setDirection(DcMotorSimple.Direction.REVERSE);
-        wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);
+        wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);    //CHANGE THIS TO FIT ROBOT
         wheelBR.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialization Complete");
+        telemetry.addData("Status", "Initialization of motors complete");
+        telemetry.addData("Status", "Initialization of motors and sensors");
 
 
 
@@ -170,8 +174,9 @@ public class drive_stick extends OpMode {
      */
     @Override
     public void init_loop() {
-        claw1.setPosition(0.4);
-        claw2.setPosition(0);
+
+        Groundclaw.setPosition(0.4);
+
 
 
     }
@@ -192,14 +197,15 @@ public class drive_stick extends OpMode {
      */
     @Override
     public void loop() {
-//this will run the methods repeadtly
+//this will run the methods repeadtly // DONT add movement code here
+
         precisionControl();
+        groundgrabber();
         drivingControl();
         Viperlift();
-        Grabber();
-
-
-
+        PixelFlip();
+        groundgrabber();
+        Dronegun();
 
 
         telemetry.addData("Left Trigger Position", gamepad1.left_trigger);
@@ -226,8 +232,8 @@ public class drive_stick extends OpMode {
         telemetry.update();
     }
 
-
-    public void precisionControl() {
+//_______________________________________________________________________________________________________________________________________________
+    public void precisionControl() { //DONT MODIFY at all
         if (gamepad1.left_trigger > 0) {
             speedMod = 0.4;
             gamepad1.rumble(0.7, 0.7, 200);
@@ -240,11 +246,13 @@ public class drive_stick extends OpMode {
             speedMod = 0.8;
             gamepad1.stopRumble();
             gamepad2.stopRumble();
-            //youtube
+
         }
     }
+    //_______________________________________________________________________________________________________________________________________________
 
-    public void drivingControl() {
+
+    public void drivingControl() { //DONT MODIFY at all
         //gets controller input
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
@@ -263,8 +271,8 @@ public class drive_stick extends OpMode {
         wheelBL.setPower(v3 * speedMod);
         wheelBR.setPower(v4 * speedMod);
     }
-
-    public void Viperlift() {
+    //_______________________________________________________________________________________________________________________________________________
+    public void Viperlift() { //needs to be modified to fit robot
 
         if ((gamepad1.dpad_up || gamepad2.dpad_up) && (armLevel < armLevelPosition.length - 1) && (getRuntime() - previousRunTime >= inputDelayInSeconds) && !clawOpen) {
 
@@ -275,7 +283,6 @@ public class drive_stick extends OpMode {
 
             previousRunTime = getRuntime();
             armLevel--;
-
 
         }
 
@@ -292,33 +299,51 @@ public class drive_stick extends OpMode {
 
         if (getRuntime() - previousRunTime >= inputDelayInSeconds + .25 && rumbleLevel) {
 
+
         }
         Viper.setTargetPosition(armLevelPosition[armLevel]);
         Viper.setTargetPositionTolerance(20);
-
+//_______________________________________________________________________________________________________________________________________________
     }
-    private void Grabber() {
+    private void PixelFlip() { //preload ground grabber //modify
+
         if(gamepad2.a && clawOpen){
             clawOpen = false;
-            claw1.setPosition(0.4);
-            claw2.setPosition(-0.1);
+            Pixelflip.setPosition(0.9);
+
         }
         else if (gamepad2.b && !clawOpen){
             clawOpen = true;
-            claw1.setPosition(0);
-            claw2.setPosition(0.4);
+            Pixelflip.setPosition(0.4);
+
+        }
+
+    }
+    //_______________________________________________________________________________________________________________________________________________
+    private void groundgrabber(){ //modify
+
+        if(gamepad2.a && clawOpen){
+            clawOpen = false;
+            Groundclaw.setPosition(0.4);
+            Groundclaw2.setPosition(-0.1);
+
+        }
+        else if (gamepad2.b && !clawOpen){
+            clawOpen = true;
+            Groundclaw.setPosition(0.4);
+            Groundclaw2.setPosition(-0.1);
+        }
+    }
+    //_______________________________________________________________________________________________________________________________________________
+    private void Dronegun(){
+
+        if(gamepad1.touchpad || gamepad2.touchpad){
+            dronelaunch.setPosition(1);//tune this
+
         }
 
     }
 }
-
-
-
-
-
-
-
-
 
 
 /*
