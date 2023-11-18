@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.hardware.motors.GoBILDA5202Series;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -51,7 +52,7 @@ import java.util.Arrays;
     name = the name that will display on the Driver Hub
     group = allows you to group OpModes
  */
-@TeleOp(name="20040 Drive Stick ", group="A")
+@TeleOp(name="20040 Drive Stick2 ", group="A")
 @Config
 //@Disabled  This way it will run on the robot
 public class drive_stick extends OpMode {
@@ -76,9 +77,10 @@ public class drive_stick extends OpMode {
     private DcMotorEx wheelBL;
     private DcMotorEx wheelBR;
     private DcMotorEx Viper;
-    private Servo Groundclaw;
-    private Servo Groundclaw2;
+    private DcMotorEx Groundclaw;
+
     private Servo Pixelflip;
+
     private Servo dronelaunch;
 
 
@@ -101,7 +103,7 @@ public class drive_stick extends OpMode {
     private int armLevel;
     private double previousRunTime;
     private double inputDelayInSeconds = .5;
-
+private boolean Intakepressed;
 
     //double susanPower;
 
@@ -129,8 +131,8 @@ public class drive_stick extends OpMode {
 
         //Servo
         Viper = hardwareMap.get(DcMotorEx.class, "viper");
-        Groundclaw = hardwareMap.get(Servo.class, "groundclaw");// for the auto ground claw for scoring its a preload
-        Groundclaw2 = hardwareMap.get(Servo.class, "groundclaw2");
+        Groundclaw = hardwareMap.get(DcMotorEx.class, "groundclaw");// for the auto ground claw for scoring its a preload
+
         Pixelflip = hardwareMap.get(Servo.class, "Pixelflip");
         dronelaunch = hardwareMap.get(Servo.class, "Dronelaunch");
 
@@ -148,7 +150,7 @@ public class drive_stick extends OpMode {
         Viper.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         Viper.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         Viper.setTargetPosition(260);// tune this
-        Viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Viper.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         Viper.setTargetPositionTolerance(50);
 
 
@@ -175,7 +177,6 @@ public class drive_stick extends OpMode {
     @Override
     public void init_loop() {
 
-        Groundclaw.setPosition(0.4);
 
 
 
@@ -200,11 +201,10 @@ public class drive_stick extends OpMode {
 //this will run the methods repeadtly // DONT add movement code here
 
         precisionControl();
-        groundgrabber();
+        intake();
         drivingControl();
         Viperlift();
         PixelFlip();
-        groundgrabber();
         Dronegun();
 
 
@@ -303,6 +303,9 @@ public class drive_stick extends OpMode {
         }
         Viper.setTargetPosition(armLevelPosition[armLevel]);
         Viper.setTargetPositionTolerance(20);
+        if(gamepad2.dpad_down){
+            Viper.setVelocity(-1000);
+        }
 //_______________________________________________________________________________________________________________________________________________
     }
     private void PixelFlip() { //preload ground grabber //modify
@@ -320,20 +323,20 @@ public class drive_stick extends OpMode {
 
     }
     //_______________________________________________________________________________________________________________________________________________
-    private void groundgrabber(){ //modify
+    private void intake() { //modify
 
-        if(gamepad2.a && clawOpen){
-            clawOpen = false;
-            Groundclaw.setPosition(0.4);
-            Groundclaw2.setPosition(-0.1);
+        if (gamepad2.a) {
+            if (Intakepressed) {
+            } else {
+                Intakepressed = true;
+                //  Groundclaw = !Groundclaw;
+            }
 
-        }
-        else if (gamepad2.b && !clawOpen){
-            clawOpen = true;
-            Groundclaw.setPosition(0.4);
-            Groundclaw2.setPosition(-0.1);
+
         }
     }
+
+
     //_______________________________________________________________________________________________________________________________________________
     private void Dronegun(){
 

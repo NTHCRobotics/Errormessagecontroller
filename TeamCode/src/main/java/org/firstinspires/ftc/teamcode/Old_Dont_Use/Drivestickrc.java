@@ -286,14 +286,9 @@ public class Drivestickrc extends OpMode {
 
         if (gamepad1.a) {
             // move to 0 degrees when pressing the x button on ps4..
-            drone.setPosition(0);
-        } else if (gamepad1.x ) {
-            // move to 90 degrees when pressing the square button on ps4.
-            drone.setPosition(0.5);
-        } else if (gamepad1.b) {
-            // move to 180 degrees when pressing the circle button on ps4.  .
             drone.setPosition(1);
-        }
+        
+
     }
 }
 
