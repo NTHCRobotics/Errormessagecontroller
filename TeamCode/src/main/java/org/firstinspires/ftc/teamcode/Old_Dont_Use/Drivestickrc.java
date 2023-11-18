@@ -56,17 +56,17 @@ public class Drivestickrc extends OpMode {
     public DcMotorEx wheelBL;
     public DcMotorEx wheelBR;
     public DcMotorEx Viper;
-    public Servo claw1;
-    public Servo drone;
 
-    //private DcMotorEx Insertnamehere
-    //private DcMotorEx Insertnamehere
+    public Servo DroneLa;
+
+    private DcMotorEx groundclaw;
+    private DcMotorEx
 
 
     //Servos
     private CRServo camera;
 
-
+    private boolean intake;
     private double speedMod;
     private final boolean rumbleLevel = true;
     private double rotation = 0;
@@ -103,7 +103,7 @@ public class Drivestickrc extends OpMode {
         Viper = hardwareMap.get(DcMotorEx.class, "viper");
         // Servos
         claw1 = hardwareMap.get(Servo.class, "claw1");
-        drone = hardwareMap.get(Servo.class, "drone");
+        Dronelaunch = hardwareMap.get(Servo.class, "drone");
 
 
         //Motor Encoders
@@ -278,7 +278,13 @@ public class Drivestickrc extends OpMode {
         if (gamepad2.right_trigger > 0) {
             claw1.setPosition(0.5); //tune this value where u need it
         }
-
+        private void intake() { //modify
+            if (gamepad2.a) {
+                if (Intakepressed) {
+                } else {
+                    Intakepressed = true;
+                    //  Groundclaw = !Groundclaw;
+                }
 
     }
     public void dronelauncher() {
@@ -287,7 +293,7 @@ public class Drivestickrc extends OpMode {
         if (gamepad1.a) {
             // move to 0 degrees when pressing the x button on ps4..
             drone.setPosition(1);
-        
+
 
     }
 }
