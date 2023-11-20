@@ -31,7 +31,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
     name = the name that will display on the Driver Hub
     group = allows you to group OpModes
  */
-@TeleOp(name="DriverControl_Pressme;)", group="yo")
+@TeleOp(name="DriverControl;)", group="yo")
 @Config
 //@Disabled  This way it will run on the robot
 public class Drivestickrc extends OpMode {
@@ -56,7 +56,7 @@ public class Drivestickrc extends OpMode {
     public DcMotorEx wheelBL;
     public DcMotorEx wheelBR;
     public DcMotorEx Viper;
-    public Servo claw1;
+    public Servo  Pixelflip;
     public Servo drone;
 
     //private DcMotorEx Insertnamehere
@@ -95,19 +95,19 @@ public class Drivestickrc extends OpMode {
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
 
-        //Motors
+        //Sets the motors hardwareMap in the driver hub
         wheelFL = hardwareMap.get(DcMotorEx.class, "wheelFL");
         wheelFR = hardwareMap.get(DcMotorEx.class, "wheelFR");
         wheelBL = hardwareMap.get(DcMotorEx.class, "wheelBL");
         wheelBR = hardwareMap.get(DcMotorEx.class, "wheelBR");
         Viper = hardwareMap.get(DcMotorEx.class, "viper");
-        // Servos
-        claw1 = hardwareMap.get(Servo.class, "claw1");
-        drone = hardwareMap.get(Servo.class, "drone");
+        // Sets the servos hardwareMap in the driver hub
+        Pixelflip = hardwareMap.get(Servo.class, "Pixelflip");
+        drone = hardwareMap.get(Servo.class, "Dronelauncher");
 
 
-        //Motor Encoders
-        //Wheels
+
+        // Sets the mode of the wheels to run with or without encoders
         wheelFL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         wheelFR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         wheelBL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -120,13 +120,16 @@ public class Drivestickrc extends OpMode {
         Viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Viper.setTargetPositionTolerance(50);
 
-
+        // sets the direction of the wheels
         wheelFL.setDirection(DcMotorSimple.Direction.FORWARD);
         wheelFR.setDirection(DcMotorSimple.Direction.REVERSE);
         wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);
         wheelBR.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
+       // Set zero behavior to the wheels
+        wheelBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wheelBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wheelFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wheelFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialization Complete");
 
@@ -138,8 +141,7 @@ public class Drivestickrc extends OpMode {
      */
     @Override
     public void init_loop() {
-        claw1.setPosition(0);
-
+        Pixelflip.setPosition(0);
 
 
     }
@@ -271,28 +273,23 @@ public class Drivestickrc extends OpMode {
     }
 
     private void Grabber() {
-        if (gamepad2.left_trigger <0) { //tune this value where u need it
-
-            claw1.setPosition(0);
+        if (gamepad2.left_trigger < 0) { //tune this value where u need it
+            Pixelflip.setPosition(0);
         }
         if (gamepad2.right_trigger > 0) {
-            claw1.setPosition(0.5); //tune this value where u need it
+            Pixelflip.setPosition(0.5); //tune this value where u need it
         }
 
 
     }
+
     public void dronelauncher() {
 
 
-        if (gamepad1.a) {
-            // move to 0 degrees when pressing the x button on ps4..
-            drone.setPosition(0);
-        } else if (gamepad1.x ) {
-            // move to 90 degrees when pressing the square button on ps4.
-            drone.setPosition(0.5);
-        } else if (gamepad1.b) {
-            // move to 180 degrees when pressing the circle button on ps4.  .
+        if (gamepad1.touchpad || gamepad2.touchpad)  {
+            // move to 180 degrees when pressing the x button on ps4..
             drone.setPosition(1);
+
         }
     }
 }
