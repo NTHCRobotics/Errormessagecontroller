@@ -42,7 +42,7 @@ public class Drivestickrc extends OpMode {
     Declare motors to type DcMotorEx
 
     Documentation:
-    https://ftctechnh.github.io/ftc_app/doc/javadoc/com/qualcomm/robotcore/hardware/DcMotorEx.html
+   x    
      */
 
     //Touch Sensors
@@ -59,7 +59,7 @@ public class Drivestickrc extends OpMode {
     public Servo  Pixelflip;
     public Servo drone;
 
-    //private DcMotorEx Insertnamehere
+    public DcMotorEx Intake;
     //private DcMotorEx Insertnamehere
 
 
@@ -77,9 +77,7 @@ public class Drivestickrc extends OpMode {
     private int armLevel = 0;
     private double previousRunTime;
     private double inputDelayInSeconds = .5;
-    final double buttontriangle = 1;
 
-    //double susanPower;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -101,6 +99,7 @@ public class Drivestickrc extends OpMode {
         wheelBL = hardwareMap.get(DcMotorEx.class, "wheelBL");
         wheelBR = hardwareMap.get(DcMotorEx.class, "wheelBR");
         Viper = hardwareMap.get(DcMotorEx.class, "viper");
+        Intake = hardwareMap.get(DcMotorEx.class,"intake");
         // Sets the servos hardwareMap in the driver hub
         Pixelflip = hardwareMap.get(Servo.class, "Pixelflip");
         drone = hardwareMap.get(Servo.class, "Dronelauncher");
@@ -123,13 +122,10 @@ public class Drivestickrc extends OpMode {
         // sets the direction of the wheels
         wheelFL.setDirection(DcMotorSimple.Direction.FORWARD);
         wheelFR.setDirection(DcMotorSimple.Direction.REVERSE);
-        wheelBL.setDirection(DcMotorSimple.Direction.REVERSE);
-        wheelBR.setDirection(DcMotorSimple.Direction.FORWARD);
-       // Set zero behavior to the wheels
-        wheelBR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        wheelBL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        wheelFR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        wheelFL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wheelBL.setDirection(DcMotorSimple.Direction.FORWARD);
+        wheelBR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialization Complete");
 
@@ -141,7 +137,7 @@ public class Drivestickrc extends OpMode {
      */
     @Override
     public void init_loop() {
-        Pixelflip.setPosition(0);
+
 
 
     }
@@ -166,9 +162,9 @@ public class Drivestickrc extends OpMode {
         precisionControl();
         drivingControl();
         Viperlift();
-        Grabber();
+        pixelflip();
         dronelauncher();
-
+        intake();
 
         telemetry.addData("Left Trigger Position", gamepad1.left_trigger);
 
@@ -229,8 +225,8 @@ public class Drivestickrc extends OpMode {
 
         //change the power for each wheel
         wheelFL.setPower(-v1 * speedMod);
-        wheelFR.setPower(-v2 * speedMod);
-        wheelBL.setPower(v3 * speedMod);
+        wheelFR.setPower(v2 * speedMod);
+        wheelBL.setPower(-v3 * speedMod);
         wheelBR.setPower(v4 * speedMod);
     }
 
@@ -272,8 +268,8 @@ public class Drivestickrc extends OpMode {
 
     }
 
-    private void Grabber() {
-        if (gamepad2.left_trigger < 0) { //tune this value where u need it
+    public void pixelflip() {
+        if (gamepad2.left_trigger > 0) { //tune this value where u need it
             Pixelflip.setPosition(0);
         }
         if (gamepad2.right_trigger > 0) {
@@ -292,7 +288,16 @@ public class Drivestickrc extends OpMode {
 
         }
     }
+    public void intake(){
+        if(gamepad2.a){
+           Intake.setVelocity(1000);
+        }
+        else{
+            Intake.setVelocity(0);
+        }
+    }
 }
+
 
 
 
