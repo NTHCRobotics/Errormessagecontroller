@@ -289,11 +289,14 @@ public class Drivestickrc extends OpMode {
         }
     }
     public void intake(){
-        if(gamepad2.a){
-           Intake.setVelocity(1000);
+        if(gamepad2.left_bumper){
+           Intake.setPower(1);
+        }
+        else if(gamepad2.right_bumper){
+            Intake.setPower(-1);
         }
         else{
-            Intake.setVelocity(0);
+            Intake.setPower(0);
         }
     }
 }
