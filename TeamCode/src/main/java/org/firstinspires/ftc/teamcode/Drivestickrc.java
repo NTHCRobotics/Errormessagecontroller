@@ -56,15 +56,14 @@ public class Drivestickrc extends OpMode {
     public DcMotorEx wheelBL;
     public DcMotorEx wheelBR;
     public DcMotorEx Viper;
-    public Servo  Pixelflip;
+    public Servo Pixelflip;
     public Servo drone;
-
     public DcMotorEx Intake;
-    //private DcMotorEx Insertnamehere
+
 
 
     //Servos
-    private CRServo camera;
+
 
 
     private double speedMod;
@@ -99,7 +98,7 @@ public class Drivestickrc extends OpMode {
         wheelBL = hardwareMap.get(DcMotorEx.class, "wheelBL");
         wheelBR = hardwareMap.get(DcMotorEx.class, "wheelBR");
         Viper = hardwareMap.get(DcMotorEx.class, "viper");
-        Intake = hardwareMap.get(DcMotorEx.class,"intake");
+        Intake = hardwareMap.get(DcMotorEx.class, "intake");
         // Sets the servos hardwareMap in the driver hub
         Pixelflip = hardwareMap.get(Servo.class, "Pixelflip");
         drone = hardwareMap.get(Servo.class, "Dronelauncher");
@@ -139,7 +138,6 @@ public class Drivestickrc extends OpMode {
     public void init_loop() {
 
 
-
     }
 
     /*
@@ -165,6 +163,7 @@ public class Drivestickrc extends OpMode {
         pixelflip();
         dronelauncher();
         intake();
+
 
         telemetry.addData("Left Trigger Position", gamepad1.left_trigger);
 
@@ -211,6 +210,7 @@ public class Drivestickrc extends OpMode {
     }
 
     public void drivingControl() {
+
         //gets controller input
         double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
@@ -224,20 +224,19 @@ public class Drivestickrc extends OpMode {
         final double v4 = r * Math.cos(robotAngle) + rightX;
 
         //change the power for each wheel
-        wheelFL.setPower(-v1 * speedMod);
-        wheelFR.setPower(v2 * speedMod);
-        wheelBL.setPower(-v3 * speedMod);
-        wheelBR.setPower(v4 * speedMod);
+        wheelFL.setPower(v1 * speedMod);
+        wheelFR.setPower(-v2 * speedMod);
+        wheelBL.setPower(v3 * speedMod);
+        wheelBR.setPower(-v4 * speedMod);
     }
-
     public void Viperlift() {
 
-        if ((gamepad1.dpad_up || gamepad2.dpad_up) && (armLevel < armLevelPosition.length - 1) && (getRuntime() - previousRunTime >= inputDelayInSeconds) && !clawOpen) {
+        if ((gamepad1.dpad_up || gamepad2.dpad_up) && (armLevel < armLevelPosition.length - 1) && (getRuntime() - previousRunTime >= inputDelayInSeconds)) {
 
             previousRunTime = getRuntime();
             armLevel++;
         }
-        if ((gamepad1.dpad_down || gamepad2.dpad_down) && (armLevel > 0) && (getRuntime() - previousRunTime >= inputDelayInSeconds) && !clawOpen) {
+        if ((gamepad1.dpad_down || gamepad2.dpad_down) && (armLevel > 0) && (getRuntime() - previousRunTime >= inputDelayInSeconds) ) {
 
             previousRunTime = getRuntime();
             armLevel--;
@@ -246,11 +245,11 @@ public class Drivestickrc extends OpMode {
         }
 
         //sets to driving level
-        if ((gamepad1.y || gamepad2.y) && !clawOpen) {
+        if (gamepad1.y || gamepad2.y)  {
             armLevel = 1;
         }
 
-        if ((gamepad2.share) && !clawOpen) {
+        if ((gamepad2.share)) {
             armLevel = 0;
         }
 
@@ -279,27 +278,27 @@ public class Drivestickrc extends OpMode {
 
     }
 
-    public void dronelauncher() {
+
+        public void dronelauncher () {
 
 
-        if (gamepad1.touchpad || gamepad2.touchpad)  {
-            // move to 180 degrees when pressing the x button on ps4..
-            drone.setPosition(1);
+            if (gamepad1.touchpad || gamepad2.touchpad) {
+                // move to 180 degrees when pressing the x button on ps4..
+                drone.setPosition(1);
 
+            }
+        }
+        public void intake () {
+            if (gamepad2.left_bumper) {
+                Intake.setPower(1);
+            } else if (gamepad2.right_bumper) {
+                Intake.setPower(-1);
+            } else {
+                Intake.setPower(0);
+            }
         }
     }
-    public void intake(){
-        if(gamepad2.left_bumper){
-           Intake.setPower(1);
-        }
-        else if(gamepad2.right_bumper){
-            Intake.setPower(-1);
-        }
-        else{
-            Intake.setPower(0);
-        }
-    }
-}
+
 
 
 
