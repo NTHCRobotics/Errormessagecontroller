@@ -282,19 +282,15 @@ public class Drivestickrc extends OpMode {
         public void dronelauncher () {
 
 
-            if (gamepad1.touchpad || gamepad2.touchpad) {
-                // move to 180 degrees when pressing the x button on ps4..
+            if (gamepad2.touchpad) {
+                // move to 180 degrees when pressing the touchpad button on ps4..
                 drone.setPosition(1);
 
             }
         }
         public void intake () {
-            if (gamepad2.left_bumper) {
+            if (gamepad2.left_bumper) { // turns the intake to spin untill the pixel is in the bucket
                 Intake.setPower(1);
-            } else if (gamepad2.right_bumper) {
-                Intake.setPower(-1);
-            } else {
-                Intake.setPower(0);
             }
         }
     }
