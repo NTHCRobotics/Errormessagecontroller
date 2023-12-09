@@ -49,7 +49,7 @@ import java.util.Arrays;
     name = the name that will display on the Driver Hub
     group = allows you to group OpModes
  */
-@TeleOp(name="DriverControl_Pressme;)", group="sai")
+@TeleOp(name="LostControl)", group="sai")
 //@Disabled  This way it will run on the robot
 public class Driver_ControlNEW extends OpMode {
     // Declare OpMode members.
@@ -186,7 +186,7 @@ public class Driver_ControlNEW extends OpMode {
         precisionControl();
         drivingControl();
         Viperlift();
-        GroundClaw();
+       // GroundClaw();
         flipper();
         intake();
         dronelaunch();
@@ -219,18 +219,18 @@ public class Driver_ControlNEW extends OpMode {
     public void precisionControl() {
         if (gamepad1.left_trigger > 0) {
             speedMod = .25;
-            gamepad1.rumble(1, 1, 200);
-            gamepad2.rumble(1, 1, 200);
+//            gamepad1.rumble(1, 1, 200);
+//            gamepad2.rumble(1, 1, 200);
         } else if (gamepad1.right_trigger > 0) {
 
             speedMod = 0.5;
-            gamepad1.rumble(1, 1, 200);
-            gamepad2.rumble(1, 1, 200);
+//            gamepad1.rumble(1, 1, 200);
+//            gamepad2.rumble(1, 1, 200);
 
         } else {
             speedMod = 1;
-            gamepad1.stopRumble();
-            gamepad2.stopRumble();
+//            gamepad1.stopRumble();
+//            gamepad2.stopRumble();
             //youtube
         }
     }
@@ -281,22 +281,22 @@ public class Driver_ControlNEW extends OpMode {
             //if statement to set speed only going down
         }
 
-        if (getRuntime() - previousRunTime >= inputDelayInSeconds + .25 && rumbleLevel) {
+        if (getRuntime() - previousRunTime >= inputDelayInSeconds + .25) {
 
         }
         Viper.setTargetPosition(armLevelPosition[armLevel]);
         Viper.setTargetPositionTolerance(armLevelPosition[armLevel]);
 
     }
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    private void GroundClaw() {
-
-        if (gamepad2.circle) {
-            claw.setPosition(0.4); //tune this value until
-        } else if (gamepad2.square) {
-            claw.setPosition(0.7);//tune this value until
-        }
-    }
+//    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//    private void GroundClaw() {
+//
+//        if (gamepad2.circle) {
+//            claw.setPosition(0.4); //tune this value until
+//        } else if (gamepad2.square) {
+//            claw.setPosition(0.7);//tune this value until
+//        }
+//    }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public void intake() {
         // if (intakeSensor.getState()) {
@@ -316,16 +316,14 @@ public class Driver_ControlNEW extends OpMode {
         }
     }
 
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     private void flipper() {
 
         if (gamepad2.left_trigger > 0) {
-            flip.setPosition(0.65); //tune this value until
+            flip.setPosition(0.675); //tune this value until
         } else if (gamepad2.right_trigger > 0) {
-            flip.setPosition(0.25);//tune this value until
+            flip.setPosition(0.35);//tune this value until
         }
     }
-//_______________________________________________________________________________________________________________________________________________________________________________________
 
     private void dronelaunch() {
 
