@@ -162,8 +162,8 @@ public class Driver_ControlNEW extends OpMode {
      */
     @Override
     public void init_loop() {
-//        claw.setPosition(0.85);
-//        flip.setPower(-0.23);
+        drone.setPosition(0.50);
+
     }
 
     /*
@@ -189,7 +189,7 @@ public class Driver_ControlNEW extends OpMode {
         GroundClaw();
         flipper();
         intake();
-
+        dronelaunch();
 //________________________________________________________________________________________________________________________________________________________________________________________________________________-
         telemetry.addData("Left Trigger Position", gamepad1.left_trigger);
 
@@ -271,7 +271,7 @@ public class Driver_ControlNEW extends OpMode {
         }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //sets to driving level
-        if (gamepad1.y || gamepad2.y) {
+        if (gamepad1.x || gamepad2.x) {
             armLevel = 1;
         }
 
@@ -320,12 +320,21 @@ public class Driver_ControlNEW extends OpMode {
     private void flipper() {
 
         if (gamepad2.left_trigger > 0) {
-            flip.setPosition(0.4); //tune this value until
+            flip.setPosition(0.65); //tune this value until
         } else if (gamepad2.right_trigger > 0) {
-            flip.setPosition(0.7);//tune this value until
+            flip.setPosition(0.25);//tune this value until
         }
     }
+//_______________________________________________________________________________________________________________________________________________________________________________________
 
+    private void dronelaunch() {
+
+        if (gamepad2.share|| gamepad1.share) {
+
+            drone.setPosition(-1);
+        }
+
+    }
     public static void wait(int ms) {
         try {
             Thread.sleep(ms); //core java delay command
