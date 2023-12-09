@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
@@ -193,10 +193,9 @@ public class Drivestickrc extends OpMode {
     public void precisionControl() {
         if (gamepad1.left_bumper) {
             speedMod = .25;
-<<<<<<< Updated upstream
+
         } else if (gamepad1.right_bumper) {
-=======
->>>>>>> Stashed changes
+
 
         } else if (gamepad1.right_trigger > 0) {
             speedMod = 0.5;
