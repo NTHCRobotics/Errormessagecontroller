@@ -191,43 +191,54 @@ public class Drivestickrc extends OpMode {
 
 
     public void precisionControl() {
-        if (gamepad1.left_trigger > 0) {
+        if (gamepad1.left_bumper) {
             speedMod = .25;
-            gamepad1.rumble(1, 1, 200);
-            gamepad2.rumble(1, 1, 200);
-        } else if (gamepad1.right_trigger > 0) {
+        } else if (gamepad1.right_bumper) {
 
             speedMod = 0.5;
-            gamepad1.rumble(1, 1, 200);
-            gamepad2.rumble(1, 1, 200);
 
         } else {
             speedMod = 1;
-            gamepad1.stopRumble();
-            gamepad2.stopRumble();
-            //youtube
         }
     }
 
     public void drivingControl() {
 
         //gets controller input
-        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-
-        //make calculations based upon the input
-        double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = -gamepad1.right_stick_x;
-        rotation += 1 * rightX;
-        final double v1 = r * Math.cos(robotAngle) - rightX;
-        final double v2 = r * Math.sin(robotAngle) + rightX;
-        final double v3 = r * Math.sin(robotAngle) - rightX;
-        final double v4 = r * Math.cos(robotAngle) + rightX;
+//        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+//
+//        //make calculations based upon the input
+//        double robotAngle = Math.atan2(-gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+//        double rightX = -gamepad1.right_stick_x;
+//        rotation += 1 * rightX;
+//        final double v1 = r * Math.cos(robotAngle) - rightX;
+//        final double v2 = r * Math.sin(robotAngle) + rightX;
+//        final double v3 = r * Math.sin(robotAngle) - rightX;
+//        final double v4 = r * Math.cos(robotAngle) + rightX;
 
         //change the power for each wheel
-        wheelFL.setPower(v1 * speedMod);
-        wheelFR.setPower(-v2 * speedMod);
-        wheelBL.setPower(v3 * speedMod);
-        wheelBR.setPower(-v4 * speedMod);
+        double accel = (gamepad1.right_trigger - gamepad1.left_trigger);
+        double turnSpeed = gamepad1.left_stick_x;
+        double strafeSpeed = gamepad1.right_stick_x;
+
+        final double FL = (accel + turnSpeed - strafeSpeed);
+        final double FR = (accel - turnSpeed - strafeSpeed);
+        final double BL = (accel + turnSpeed + strafeSpeed);
+        final double BR = (accel - turnSpeed + strafeSpeed);
+
+//        func double to1(double = input) {
+//            if (input > 1){
+//                return 1;
+//            }else if (input < -1) {
+//                return -1;
+//            }
+//
+//        }
+
+        wheelFL.setPower(FL * speedMod);
+        wheelFR.setPower(FR * speedMod);
+        wheelBL.setPower(BL * speedMod);
+        wheelBR.setPower(BR * speedMod);
     }
     public void Viperlift() {
 
