@@ -193,8 +193,12 @@ public class Drivestickrc extends OpMode {
     public void precisionControl() {
         if (gamepad1.left_bumper) {
             speedMod = .25;
+<<<<<<< Updated upstream
         } else if (gamepad1.right_bumper) {
+=======
+>>>>>>> Stashed changes
 
+        } else if (gamepad1.right_trigger > 0) {
             speedMod = 0.5;
 
         } else {
@@ -264,7 +268,7 @@ public class Drivestickrc extends OpMode {
             armLevel = 0;
         }
 
-        Viper.setVelocity(2000);
+
         if (armLevel == 1) {
             Viper.setVelocity(2000);
             //if statement to set speed only going down
@@ -283,7 +287,7 @@ public class Drivestickrc extends OpMode {
             Pixelflip.setPosition(0);
         }
         if (gamepad2.right_trigger > 0) {
-            Pixelflip.setPosition(0.5); //tune this value where u need it
+            Pixelflip.setPosition(1); //tune this value where u need it
         }
 
 
@@ -303,6 +307,10 @@ public class Drivestickrc extends OpMode {
             if (gamepad2.left_bumper) { // turns the intake to spin untill the pixel is in the bucket
                 Intake.setPower(1);
             }
+            else {
+                Intake.setPower(0);
+            }
+
         }
     }
 
