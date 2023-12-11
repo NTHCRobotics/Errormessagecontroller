@@ -250,9 +250,9 @@ public class Driver_ControlNEW extends OpMode {
 
         //change the power for each wheel
         wheelFL.setPower(-v1 * speedMod);
-        wheelFR.setPower(-v2 * speedMod);
+        wheelFR.setPower(v2 * speedMod);
         wheelBL.setPower(v3 * speedMod);
-        wheelBR.setPower(v4 * speedMod);
+        wheelBR.setPower(-v4 * speedMod);
     }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public void Viperlift() {
@@ -305,13 +305,10 @@ public class Driver_ControlNEW extends OpMode {
         // }
         // else{
         if (gamepad2.left_bumper) {
-            in.setPower(1);
-            in.setPower(1);
+            in.setVelocity(500);
         } else if (gamepad2.right_bumper) {
-            in.setPower(-1);
-            in.setPower(-1);
+            in.setVelocity(-500);
         } else {
-            in.setPower(0);
             in.setPower(0);
         }
     }
@@ -321,7 +318,7 @@ public class Driver_ControlNEW extends OpMode {
         if (gamepad2.left_trigger > 0) {
             flip.setPosition(0.675); //tune this value until
         } else if (gamepad2.right_trigger > 0) {
-            flip.setPosition(0.35);//tune this value until
+            flip.setPosition(0.25);//tune this value until
         }
     }
 
@@ -332,13 +329,6 @@ public class Driver_ControlNEW extends OpMode {
             drone.setPosition(-1);
         }
 
-    }
-    public static void wait(int ms) {
-        try {
-            Thread.sleep(ms); //core java delay command
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt(); //this exception is useful to remove the glitches and errors of the thread.sleep()
-        }
     }
 
 
