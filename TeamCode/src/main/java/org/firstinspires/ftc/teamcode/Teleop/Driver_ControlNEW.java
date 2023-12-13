@@ -49,7 +49,7 @@ import java.util.Arrays;
     name = the name that will display on the Driver Hub
     group = allows you to group OpModes
  */
-@TeleOp(name="LostControl)", group="sai")
+@TeleOp(name="Drive_Control_Pressume)", group="sai")
 //@Disabled  This way it will run on the robot
 public class Driver_ControlNEW extends OpMode {
     // Declare OpMode members.
@@ -189,7 +189,7 @@ public class Driver_ControlNEW extends OpMode {
        // GroundClaw();
         flipper();
         intake();
-        dronelaunch();
+        dronelauncher();
 //________________________________________________________________________________________________________________________________________________________________________________________________________________-
         telemetry.addData("Left Trigger Position", gamepad1.left_trigger);
 
@@ -289,14 +289,14 @@ public class Driver_ControlNEW extends OpMode {
 
     }
 //    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//    private void GroundClaw() {
-//
-//        if (gamepad2.circle) {
-//            claw.setPosition(0.4); //tune this value until
-//        } else if (gamepad2.square) {
-//            claw.setPosition(0.7);//tune this value until
-//        }
-//    }
+  private void GroundClaw() {
+
+      if (gamepad2.circle) {
+          claw.setPosition(0.4); //tune this value until
+        } else if (gamepad2.square) {
+            claw.setPosition(0.7);//tune this value until
+        }
+    }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public void intake() {
         // if (intakeSensor.getState()) {
@@ -304,9 +304,9 @@ public class Driver_ControlNEW extends OpMode {
         //gamepad2.rumble(1000);
         // }
         // else{
-        if (gamepad2.left_bumper) {
+        if (gamepad2.left_bumper) { // goes forward 
             in.setVelocity(500);
-        } else if (gamepad2.right_bumper) {
+        } else if (gamepad2.right_bumper) { // goes backwards
             in.setVelocity(-500);
         } else {
             in.setPower(0);
@@ -321,15 +321,14 @@ public class Driver_ControlNEW extends OpMode {
             flip.setPosition(0.25);//tune this value until
         }
     }
+        private void dronelauncher() {
 
-    private void dronelaunch() {
+            if (gamepad2.share || gamepad1.share) {
 
-        if (gamepad2.share|| gamepad1.share) {
+                drone.setPosition(-1);
+            }
 
-            drone.setPosition(-1);
         }
-
-    }
 
 
     /*
