@@ -143,7 +143,7 @@ public class Driver_ControlNEW extends OpMode {
         Viper.setTargetPosition(260);
         Viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Viper.setTargetPositionTolerance(50);
-        Viper.setDirection(DcMotorSimple.Direction.REVERSE);
+        Viper.setDirection(DcMotorSimple.Direction.FORWARD);
 
         wheelFL.setDirection(DcMotorSimple.Direction.REVERSE);//REVERSE
         wheelFR.setDirection(DcMotorSimple.Direction.FORWARD);//FORWARD
@@ -304,10 +304,10 @@ public class Driver_ControlNEW extends OpMode {
         //gamepad2.rumble(1000);
         // }
         // else{
-        if (gamepad2.left_bumper) {
+        if (gamepad2.right_bumper) {
             in.setPower(1);
             in.setPower(1);
-        } else if (gamepad2.right_bumper) {
+        } else if (gamepad2.left_bumper) {
             in.setPower(-1);
             in.setPower(-1);
         } else {
@@ -315,14 +315,15 @@ public class Driver_ControlNEW extends OpMode {
             in.setPower(0);
         }
     }
-
     private void flipper() {
 
         if (gamepad2.left_trigger > 0) {
-            flip.setPosition(0.675); //tune this value until
+            flip.setPosition(1); //tune this value until
         } else if (gamepad2.right_trigger > 0) {
-            flip.setPosition(0.35);//tune this value until
+            flip.setPosition(0.40);//tune this value until
         }
+
+
     }
 
     private void dronelaunch() {
