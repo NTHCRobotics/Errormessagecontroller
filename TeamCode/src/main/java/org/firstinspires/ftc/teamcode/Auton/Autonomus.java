@@ -73,8 +73,8 @@ public class Autonomus extends LinearOpMode {
 
         waitForStart();
 
-        moveForward( power 1 ,time 1000);
-
+        moveForward(1, 1000);
+        moveBackward(-1, 1000);
     }
     public void moveForward (int power, int time ){
         wheelFL.setPower(power);
@@ -89,4 +89,46 @@ public class Autonomus extends LinearOpMode {
 
 
     }
+    public  void  moveRight (int power, int time , int power2) {
+        wheelFL.setPower(power);
+        wheelFR.setPower(power2);
+        wheelBL.setPower(power);
+        wheelBR.setPower(power2);
+        sleep(time);
+        wheelFL.setPower(0);
+        wheelFR.setPower(0);
+        wheelBL.setPower(0);
+        wheelBR.setPower(0);
+
+    }
+    public  void moveLeft (int power, int time , int power2) {
+        wheelFL.setPower(power2);
+        wheelFR.setPower(power);
+        wheelBL.setPower(power2);
+        wheelBR.setPower(power);
+        sleep(time);
+        wheelFL.setPower(0);
+        wheelFR.setPower(0);
+        wheelBL.setPower(0);
+        wheelBR.setPower(0);
+
+    }
+    public  void  moveBackward(int power, int time ) {
+        wheelFL.setPower(power);
+        wheelFR.setPower(power);
+        wheelBL.setPower(power);
+        wheelBR.setPower(power);
+        sleep(time);
+        wheelFL.setPower(0);
+        wheelFR.setPower(0);
+        wheelBL.setPower(0);
+        wheelBR.setPower(0);
+
+    }
+
+
+
+
+
+
 }
