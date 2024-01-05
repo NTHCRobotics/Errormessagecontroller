@@ -306,19 +306,19 @@ public class Driver_ControlNEW extends OpMode {
         // else{
         if (gamepad2.right_bumper) {
             in.setPower(1);
-            in.setPower(1);
+          // in.setPower(1);
         } else if (gamepad2.left_bumper) {
             in.setPower(-1);
-            in.setPower(-1);
+            //in.setPower(-1);
         } else {
             in.setPower(0);
-            in.setPower(0);
+         //   in.setPower(0);
         }
     }
     private void flipper() {
 
         if (gamepad2.left_trigger > 0) {
-            flip.setPosition(1); //tune this value until
+            flip.setPosition(0.67); //tune this value until
         } else if (gamepad2.right_trigger > 0) {
             flip.setPosition(0.40);//tune this value until
         }
