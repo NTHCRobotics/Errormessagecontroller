@@ -96,7 +96,7 @@ public class Driver_ControlNEW extends OpMode {
     private double inputDelayInSeconds = .5;
 
 
-    //double susanPower;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -143,7 +143,7 @@ public class Driver_ControlNEW extends OpMode {
         Viper.setTargetPosition(260);
         Viper.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Viper.setTargetPositionTolerance(50);
-        Viper.setDirection(DcMotorSimple.Direction.FORWARD);
+        Viper.setDirection(DcMotorSimple.Direction.REVERSE);
 
         wheelFL.setDirection(DcMotorSimple.Direction.REVERSE);//REVERSE
         wheelFR.setDirection(DcMotorSimple.Direction.FORWARD);//FORWARD
@@ -333,13 +333,6 @@ public class Driver_ControlNEW extends OpMode {
             drone.setPosition(-1);
         }
 
-    }
-    public static void wait(int ms) {
-        try {
-            Thread.sleep(ms); //core java delay command
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt(); //this exception is useful to remove the glitches and errors of the thread.sleep()
-        }
     }
 
 
