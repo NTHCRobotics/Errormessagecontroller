@@ -30,6 +30,7 @@ package org.firstinspires.ftc.teamcode.Teleop;
  */
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -58,6 +59,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
     group = allows you to group OpModes
  */
 @TeleOp(name = "(boooo7)", group = "d")
+@Disabled
 //@Disabled  This way it will run on the robot
 public class Drive_Control extends OpMode {
     // Declare OpMode members.`a

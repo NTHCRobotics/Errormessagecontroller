@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Teleop;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -32,6 +33,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
     group = allows you to group OpModes
  */
 @TeleOp(name="DriverControl;)", group="yo")
+@Disabled
 @Config
 //@Disabled  This way it will run on the robot
 public class Drivestickrc extends OpMode {

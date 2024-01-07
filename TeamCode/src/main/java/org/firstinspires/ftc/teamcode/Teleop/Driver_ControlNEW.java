@@ -49,7 +49,7 @@ import java.util.Arrays;
     name = the name that will display on the Driver Hub
     group = allows you to group OpModes
  */
-@TeleOp(name="LostControl)", group="sai")
+@TeleOp(name="drivercontrolpressmedaddy", group="sai")
 //@Disabled  This way it will run on the robot
 public class Driver_ControlNEW extends OpMode {
     // Declare OpMode members.
