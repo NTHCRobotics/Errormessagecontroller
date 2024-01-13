@@ -204,7 +204,6 @@ public class Driver_ControlNEW extends OpMode {
         telemetry.addData("Velocity", Viper.getVelocity());
         telemetry.addData("is at target", !Viper.isBusy());
         telemetry.addData("Tolerance: ", Viper.getTargetPositionTolerance());
-
         // Show the elapsed game time and power for each wheel.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         //telemetry.addData("Motors", "wheelFL (%.2f), front right (%.2f), back left (%.2f),  right (%.2f)", wheelFL, wheelFR, wheelBL, wheelBR);
@@ -219,17 +218,17 @@ public class Driver_ControlNEW extends OpMode {
     public void precisionControl() {
         if (gamepad1.left_trigger > 0) {
             speedMod = .25;
-//            gamepad1.rumble(1, 1, 200);
+            gamepad1.rumble(1, 1, 200);
 //            gamepad2.rumble(1, 1, 200);
         } else if (gamepad1.right_trigger > 0) {
 
             speedMod = 0.5;
 //            gamepad1.rumble(1, 1, 200);
-//            gamepad2.rumble(1, 1, 200);
+          gamepad1.rumble(1, 1, 200);
 
         } else {
             speedMod = 1;
-//            gamepad1.stopRumble();
+       gamepad1.stopRumble();
 //            gamepad2.stopRumble();
             //youtube
         }
@@ -304,10 +303,10 @@ public class Driver_ControlNEW extends OpMode {
         //gamepad2.rumble(1000);
         // }
         // else{
-        if (gamepad2.right_bumper) {
+        if (gamepad2.right_bumper) { // shoots pixel
             in.setPower(1);
           // in.setPower(1);
-        } else if (gamepad2.left_bumper) {
+        } else if (gamepad2.left_bumper) { // puts pixel into the bucket
             in.setPower(-1);
             //in.setPower(-1);
         } else {
@@ -318,11 +317,13 @@ public class Driver_ControlNEW extends OpMode {
     private void flipper() {
 
         if (gamepad2.left_trigger > 0) {
-            flip.setPosition(0.67); //tune this value until
+            flip.setPosition(-1); //tune this value until
         } else if (gamepad2.right_trigger > 0) {
             flip.setPosition(0.40);//tune this value until
         }
-
+else {
+    flip.setPosition(0.30);
+        }
 
     }
 
