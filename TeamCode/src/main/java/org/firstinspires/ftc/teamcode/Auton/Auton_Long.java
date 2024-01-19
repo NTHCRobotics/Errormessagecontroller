@@ -9,10 +9,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="Robot: Auto Drive By Time", group="Robot")
+@Autonomous(name="Long", group="Robot")
 
 
-public class Autonomus extends LinearOpMode {
+public class Auton_Long extends LinearOpMode {
 
     private DcMotorEx wheelFL;
     private DcMotorEx wheelFR;
@@ -57,7 +57,7 @@ public class Autonomus extends LinearOpMode {
         wheelBR.setPower(FORWARD_SPEED);
         wheelBL.setPower(FORWARD_SPEED);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 6.0)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
