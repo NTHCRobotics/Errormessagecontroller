@@ -41,6 +41,11 @@ public class Auton_Long extends LinearOpMode {
         wheelBR.setDirection(DcMotorSimple.Direction.REVERSE);//REVERSE
 
 
+        wheelFL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        wheelFR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        wheelBL.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        wheelBR.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
         waitForStart();
 // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
@@ -63,16 +68,7 @@ public class Auton_Long extends LinearOpMode {
         }
 
 
-        // Step 3:  Drive Backward for 1 Second
-        wheelFL.setPower(-FORWARD_SPEED);
-        wheelBL.setPower(-FORWARD_SPEED);
-        wheelBR.setPower(-FORWARD_SPEED);
-        wheelFR.setPower(-FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.0)) {
-            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
+
 
         // Step 4:  Stop
         wheelBL.setPower(0);

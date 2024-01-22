@@ -49,7 +49,7 @@ import java.util.Arrays;
     name = the name that will display on the Driver Hub
     group = allows you to group OpModes
  */
-@TeleOp(name="drivercontrolpressmedaddy", group="sai")
+@TeleOp(name="drivercontrolpressme", group="sai")
 //@Disabled  This way it will run on the robot
 public class Driver_ControlNEW extends OpMode {
     // Declare OpMode members.
@@ -317,12 +317,12 @@ public class Driver_ControlNEW extends OpMode {
     private void flipper() {
 
         if (gamepad2.left_trigger > 0) {
-            flip.setPosition(-1); //tune this value until
+            flip.setPosition(0.20); //tune this value until
         } else if (gamepad2.right_trigger > 0) {
-            flip.setPosition(0.40);//tune this value until
+            flip.setPosition(0.70);//tune this value until
         }
-else {
-    flip.setPosition(0.30);
+        else {
+    flip.setPosition(0.60);
         }
 
     }
