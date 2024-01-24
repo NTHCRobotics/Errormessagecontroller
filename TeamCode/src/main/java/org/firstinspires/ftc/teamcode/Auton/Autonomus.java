@@ -65,8 +65,10 @@ public class Autonomus extends LinearOpMode {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+         wheelBL.setPower(TURN_SPEED);
+while (opModeIsActive()&& (runtime.seconds() < 2.0)){
 
-
+}
 
 
         // Step 4:  Stop
