@@ -79,6 +79,7 @@ public class Autonomus extends LinearOpMode {
      }
         telemetry.addData("Path", "Complete");
         telemetry.update();
+      in.setPower(0);
         sleep(1000);
 
 
