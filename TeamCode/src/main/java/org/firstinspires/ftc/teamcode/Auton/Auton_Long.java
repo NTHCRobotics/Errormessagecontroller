@@ -56,7 +56,7 @@ public class Auton_Long extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
-        // Step 1:  Drive forward for 3 seconds
+        // Step 1:  Drive forward for 6 seconds
         wheelFL.setPower(FORWARD_SPEED);
         wheelFR.setPower(FORWARD_SPEED);
         wheelBR.setPower(FORWARD_SPEED);
